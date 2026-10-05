@@ -20,11 +20,15 @@ https://pat-zhu.github.io/compas-fairness-lab/
 
 ## Live classroom mode
 
-The site now supports realtime anonymous classroom aggregation through Supabase. A facilitator can create a 6-character room code and share the generated link. Students vote from their own phones, and aggregate results update live.
+The site supports realtime anonymous classroom aggregation through Supabase.
+
+The facilitator clicks **Create classroom QR** and projects the generated QR code. Students scan it with their phone cameras and automatically join the same live session. No room code needs to be typed or shared.
+
+A **Copy student link** button remains available as a backup for anyone who cannot scan the QR code.
 
 Until Supabase is configured, the site automatically falls back to local-only mode.
 
-See [LIVE_SETUP.md](LIVE_SETUP.md) for the one-time backend setup.
+See [LIVE_SETUP.md](LIVE_SETUP.md) for the backend details.
 
 ## Privacy / data
 
@@ -32,7 +36,7 @@ The activity never asks students for names or emails.
 
 - Local mode: responses stay in that browser.
 - Live mode: a random browser UUID and response state are stored for the room so class aggregates can be computed.
-- The classroom room code is not strong authentication, so live mode should only be used for low-risk, non-sensitive discussion responses.
+- The QR code contains a short-lived classroom session URL. It is not strong authentication, so live mode should only be used for low-risk, non-sensitive discussion responses.
 
 ## Local preview
 
