@@ -6,7 +6,11 @@ session.polls ||= {}; session.tokens ||= {}; session.principles ||= [];
 
 const $=s=>document.querySelector(s);
 const $$=s=>[...document.querySelectorAll(s)];
-const save=()=>localStorage.setItem(KEY,JSON.stringify(session));
+window.COMPAS_SESSION=session;
+const save=()=>{
+  localStorage.setItem(KEY,JSON.stringify(session));
+  window.LiveClass?.saveState?.(session);
+};
 
 function go(i){
   current=Math.max(0,Math.min(screens.length-1,i));
@@ -58,11 +62,13 @@ const positive=[1,2,4,6,8,10,14,18,20,17], negative=[24,18,16,12,10,8,6,3,2,1];
 const sum=(arr,a,b)=>arr.slice(a,b).reduce((x,y)=>x+y,0);
 function updateThreshold(){
   const t=+$("#threshold").value, idx=t-1;
+  session.threshold=t;
   const tp=sum(positive,idx,10),fp=sum(negative,idx,10),fn=sum(positive,0,idx),tn=sum(negative,0,idx);
   $("#thresholdLabel").textContent=t; $("#tp").textContent=tp; $("#fp").textContent=fp; $("#fn").textContent=fn; $("#tn").textContent=tn;
   $("#detainedBar").style.width=((tp+fp)/200*100)+"%";
 }
-$("#threshold").oninput=updateThreshold; updateThreshold();
+$("#threshold").value=session.threshold||6;
+$("#threshold").oninput=()=>{updateThreshold();save()}; updateThreshold();
 
 const stakeholders=["Data scientists","COMPAS vendor","Judges","Legislators","Defendants","Affected communities"];
 function tokenTotal(){return Object.values(session.tokens).reduce((a,b)=>a+b,0)}
@@ -141,3 +147,4 @@ document.addEventListener("keydown",e=>{
   if(e.key===" "){e.preventDefault();timerPaused=!timerPaused}
 });
 go(0);
+window.LiveClass?.init?.(session);
