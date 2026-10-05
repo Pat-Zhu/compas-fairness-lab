@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#08111f" />
+  <meta name="description" content="Interactive classroom discussion on COMPAS and technical fairness." />
+  <title>COMPAS Fairness Lab</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">COMPAS <span>Fairness Lab</span></div>
+    <div class="progress" aria-label="Activity progress"><div id="progressFill"></div></div>
+    <div class="timer">
+      <strong id="timerText">00:00</strong>
+      <button data-timer="180">3m</button>
+      <button data-timer="300">5m</button>
+      <button id="timerToggle" aria-label="Pause or resume timer">⏯</button>
+    </div>
+    <button id="fullBtn" class="icon-btn" aria-label="Fullscreen">⛶</button>
+  </header>
+
+  <main id="app">
+    <section class="screen active" data-title="Start">
+      <div class="eyebrow">Interactive case discussion · 30–35 min</div>
+      <h1>When “fair”<br />definitions collide.</h1>
+      <p class="lead">A classroom activity on COMPAS, error trade-offs, race-blindness, governance, and the limits of technical fairness.</p>
+      <div class="hero-actions">
+        <button class="primary" data-go="1">Start discussion →</button>
+        <button id="resetBtn">Reset my session</button>
+      </div>
+      <div class="grid">
+        <article class="card span-7">
+          <h3>Flow</h3>
+          <div class="tags">
+            <span>1 · Poll</span><span>2 · Fairness face-off</span><span>3 · Stakeholders</span>
+            <span>4 · Race-blind?</span><span>5 · Threshold lab</span><span>6 · Perfect COMPAS?</span>
+            <span>7 · Governance</span><span>8 · Design principles</span><span>9 · Re-vote</span>
+          </div>
+          <p class="note">Anyone can open this site. By default, responses are stored only in that person's browser; the site does not collect names or send answers to a server.</p>
+        </article>
+        <article class="card span-5">
+          <h3>Facilitator shortcuts</h3>
+          <p><kbd>←</kbd> / <kbd>→</kbd> navigate · <kbd>F</kbd> fullscreen · <kbd>R</kbd> reveal · <kbd>Space</kbd> pause timer</p>
+          <p class="muted">Use the site on the projector, and let students open the same link on their phones for the threshold lab and thought experiments.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="screen" data-title="Warm-up poll">
+      <div class="eyebrow">Activity 1 · 3 minutes</div>
+      <h2>Who would you rather trust with your liberty?</h2>
+      <p class="prompt">If you were a defendant awaiting trial, would you rather be assessed by COMPAS or by a human judge?</p>
+      <div class="poll" data-poll="initial">
+        <button class="vote" data-value="COMPAS"><b>COMPAS</b><small>Consistent, measurable, algorithmic</small></button>
+        <button class="vote" data-value="Human judge"><b>Human judge</b><small>Contextual, discretionary, explainable</small></button>
+        <button class="vote" data-value="Not enough information"><b>Not enough information</b><small>I need to know more first</small></button>
+      </div>
+      <div class="response-line" data-poll-result="initial"></div>
+      <div class="note"><b>Discuss:</b> What would you need to know before you could answer confidently?</div>
+      <details class="facilitator"><summary>Facilitator notes</summary>
+        <p>Collect: comparative error rates, transparency, data used, appeal rights, stakes, and human oversight. Do not resolve the question yet; you will ask it again at the end.</p>
+      </details>
+    </section>
+
+    <section class="screen" data-title="Fairness face-off">
+      <div class="eyebrow">Activity 2 · 5 minutes</div>
+      <h2>Two fairness claims. Both can be mathematically correct.</h2>
+      <div class="grid">
+        <article class="card span-6">
+          <span class="badge red">ProPublica lens</span>
+          <h3>Errors should not fall differently by race.</h3>
+          <div class="metric"><span>False-positive rate · Black defendants</span><strong>44.9%</strong></div>
+          <div class="metric"><span>False-positive rate · White defendants</span><strong>23.5%</strong></div>
+          <p>Concern: Black defendants who did not later reoffend were more likely to be labeled high risk.</p>
+        </article>
+        <article class="card span-6">
+          <span class="badge green">Northpointe lens</span>
+          <h3>The same score should mean roughly the same risk.</h3>
+          <div class="metric"><span>Example: score 7 · White</span><strong>≈60%</strong></div>
+          <div class="metric"><span>Example: score 7 · Black</span><strong>≈61%</strong></div>
+          <p>Defense: the score was approximately calibrated across groups.</p>
+        </article>
+      </div>
+      <p class="prompt">If both sides can be mathematically correct, what are they actually disagreeing about?</p>
+      <div class="poll two" data-poll="fairness">
+        <button class="vote" data-value="Equalize errors"><b>Equalize the errors</b><small>Focus on who bears false positives / false negatives</small></button>
+        <button class="vote" data-value="Preserve calibration"><b>Preserve score meaning</b><small>Same score → roughly the same observed risk</small></button>
+      </div>
+      <div class="response-line" data-poll-result="fairness"></div>
+      <button class="reveal-btn" data-reveal="fairnessReveal">Reveal framing</button>
+      <div class="reveal" id="fairnessReveal"><div class="note">They are disagreeing about the <b>normative meaning of fairness</b>, not simply the arithmetic. One prioritizes error-rate parity; the other prioritizes calibration.</div></div>
+      <details class="facilitator"><summary>Facilitator notes</summary>
+        <p>This directly covers: What did ProPublica say was unfair? What did Northpointe say was fair? If both are mathematically correct, what are they actually disagreeing about?</p>
+      </details>
+    </section>
+
+    <section class="screen" data-title="Stakeholder breakout">
+      <div class="eyebrow">Activity 3 · 7–8 minutes</div>
+      <h2>Pick a fairness principle — and a cost you are willing to accept.</h2>
+      <p class="lead">Split into four groups. Each group gets a different role. Choose what you would prioritize, then name the unfairness or risk you are willing to tolerate in exchange.</p>
+      <div class="roles" id="roleGrid">
+        <article class="role"><div class="letter">A</div><h3>Defendants / civil-rights advocates</h3><p>Priority: avoid wrongly labeling low-risk people as dangerous. Which mistake matters most?</p></article>
+        <article class="role"><div class="letter">B</div><h3>Model developers / Northpointe</h3><p>Priority: keep scores meaningful and calibrated across groups. What breaks if calibration is sacrificed?</p></article>
+        <article class="role"><div class="letter">C</div><h3>Judges / public-safety officials</h3><p>Priority: avoid releasing people classified as low risk who later reoffend. How should false negatives matter?</p></article>
+        <article class="role"><div class="letter">D</div><h3>Community / ethicists</h3><p>Priority: challenge the premise. Should predicted future risk determine liberty at all?</p></article>
+      </div>
+      <div class="hero-actions"><button id="shuffleRoles">Shuffle role order</button></div>
+      <div class="note warn"><b>Group deliverable:</b> “We prioritize ___ because ___. We are willing to tolerate more ___ because ___.”</div>
+      <details class="facilitator"><summary>Facilitator notes</summary>
+        <p>Give groups 4–5 minutes and 30 seconds each to report out. Push each group to identify who bears the cost of its preferred definition of fairness.</p>
+      </details>
+    </section>
+
+    <section class="screen" data-title="Race-blind?">
+      <div class="eyebrow">Activity 4 · 4 minutes</div>
+      <h2>“We don’t use race.” Is that enough?</h2>
+      <p class="prompt">If removing race as an input does not remove racial disparities, what does that tell us about the claim “we don’t use race”?</p>
+      <article class="card">
+        <div class="chain">
+          <span>Historical institutions</span><i>→</i><span>Policing / opportunity patterns</span><i>→</i>
+          <span>Observed data</span><i>→</i><span>Correlated features</span><i>→</i><span>Risk score</span><i>→</i><span>Decision</span>
+        </div>
+        <p>Race can be absent as an explicit column while race-related structure remains in labels, proxies, and the data-generating process.</p>
+      </article>
+      <div class="poll two" data-poll="race">
+        <button class="vote" data-value="Meaningful constraint"><b>It is still meaningful</b><small>Not using race directly constrains the model.</small></button>
+        <button class="vote" data-value="Ethically insufficient"><b>It is ethically insufficient</b><small>Outcomes, proxies, and data pathways still matter.</small></button>
+      </div>
+      <div class="response-line" data-poll-result="race"></div>
+      <details class="facilitator"><summary>Facilitator notes</summary>
+        <p>Ask for one example of a proxy variable or a label shaped by institutions. Avoid implying that any correlated feature is automatically illegitimate.</p>
+      </details>
+    </section>
+
+    <section class="screen" data-title="Threshold lab">
+      <div class="eyebrow">Activity 5 · 5 minutes</div>
+      <h2>Threshold Lab</h2>
+      <p class="lead">You are the policymaker. Move the threshold and watch one kind of error fall while another rises.</p>
+      <div class="grid">
+        <article class="card span-7">
+          <label for="threshold"><b>High-risk threshold: score ≥ <span id="thresholdLabel">6</span></b></label>
+          <input id="threshold" type="range" min="2" max="9" value="6" />
+          <div class="stat-row">
+            <div class="stat"><b id="tp">—</b><span>True positives</span></div>
+            <div class="stat"><b id="fp">—</b><span>False positives</span></div>
+            <div class="stat"><b id="tn">—</b><span>True negatives</span></div>
+            <div class="stat"><b id="fn">—</b><span>False negatives</span></div>
+          </div>
+          <div class="meter-label">Classified high risk / detained</div>
+          <div class="meter"><div id="detainedBar"></div></div>
+          <p class="tiny">Illustrative toy dataset for classroom use — <b>not actual COMPAS data</b>.</p>
+        </article>
+        <article class="card span-5">
+          <h3>Discuss</h3>
+          <p><b>1.</b> Which threshold would you choose if “high risk” could mean pretrial detention?</p>
+          <p><b>2.</b> Would you choose the same threshold if “high risk” only triggered voluntary counseling?</p>
+          <p><b>3.</b> What does this tell us about whether fairness can be separated from stakes?</p>
+        </article>
+      </div>
+      <details class="facilitator"><summary>Facilitator notes</summary>
+        <p>This tees up the questions about pretrial liberty and the moral weight of false positives versus false negatives.</p>
+      </details>
+    </section>
+
+    <section class="screen" data-title="Perfect COMPAS?">
+      <div class="eyebrow">Activity 6 · 4–5 minutes</div>
+      <div class="big-number">99.9%</div>
+      <h2>Imagine COMPAS is now almost perfect.</h2>
+      <p class="lead">Equal false-positive rates. Equal false-negative rates. Calibrated scores. 99.9% accurate.</p>
+      <p class="prompt">Would you now be comfortable using it to help decide who sits in jail before trial?</p>
+      <div class="poll" data-poll="perfect">
+        <button class="vote" data-value="Yes"><b>Yes</b><small>The technical fairness problem is solved.</small></button>
+        <button class="vote" data-value="No"><b>No</b><small>A deeper fairness concern remains.</small></button>
+        <button class="vote" data-value="It depends"><b>It depends</b><small>Procedure, use, and safeguards still matter.</small></button>
+      </div>
+      <div class="response-line" data-poll-result="perfect"></div>
+      <button class="reveal-btn" data-reveal="perfectReveal">Reveal follow-up lenses</button>
+      <div class="reveal" id="perfectReveal">
+        <div class="tags large"><span>Liberty before trial</span><span>Prediction vs. punishment</span><span>Rearrest ≠ crime</span><span>Due process</span><span>Contestability</span><span>Institutional justice</span></div>
+      </div>
+      <div class="note"><b>Push further:</b> If equal error rates do not settle the issue, would any mathematical fairness metric detect what still bothers you?</div>
+    </section>
+
+    <section class="screen" data-title="Who defines fairness?">
+      <div class="eyebrow">Activity 7 · 4 minutes</div>
+      <h2>Who gets to define fairness?</h2>
+      <p class="lead">You have exactly <b>10 influence tokens</b>. Allocate them across the people who should have the most say in choosing the fairness definition used to evaluate a system like COMPAS.</p>
+      <div class="token-grid" id="tokenGrid"></div>
+      <p class="tokens-left">Tokens remaining: <strong id="tokensLeft">10</strong></p>
+      <div class="note"><b>Discuss:</b> Was choosing calibration versus equal error rates really an engineering decision, or a governance decision disguised as one?</div>
+    </section>
+
+    <section class="screen" data-title="Data science team">
+      <div class="eyebrow">Activity 8 · 4 minutes</div>
+      <h2>You are now on the COMPAS data science team.</h2>
+      <p class="prompt">Choose only <b>three</b> principles or priorities your team should refuse to lose sight of.</p>
+      <div class="principles" id="principles"></div>
+      <div class="note warn"><b>Report out:</b> Why these three? What about the COMPAS case makes them especially important?</div>
+    </section>
+
+    <section class="screen" data-title="Re-vote & debrief">
+      <div class="eyebrow">Activity 9 · 3–4 minutes</div>
+      <h2>Same question. Different context.</h2>
+      <p class="prompt">After the discussion, who would you rather trust with your liberty?</p>
+      <div class="poll" data-poll="final">
+        <button class="vote" data-value="COMPAS"><b>COMPAS</b><small>Algorithmic assessment</small></button>
+        <button class="vote" data-value="Human judge"><b>Human judge</b><small>Human discretion</small></button>
+        <button class="vote" data-value="Neither without safeguards"><b>Neither without safeguards</b><small>Conditions matter more than the label.</small></button>
+      </div>
+      <div class="response-line" data-poll-result="final"></div>
+      <div class="grid">
+        <article class="card span-6"><h3>Your opening answer</h3><p id="initialSummary">—</p></article>
+        <article class="card span-6"><h3>Your final answer</h3><p id="finalSummary">—</p></article>
+      </div>
+      <p class="prompt">Exit question: What is one fairness concern that no mathematical metric we discussed today could fully answer?</p>
+      <div class="note"><b>Takeaway:</b> Fairness is not one metric. Different metrics protect against different harms. A statistically fair score can still be used in an unjust system.</div>
+      <div class="hero-actions">
+        <button id="downloadSummary">Download my session summary</button>
+        <button class="reveal-btn" data-reveal="sources">Show readings & sources</button>
+      </div>
+      <div class="reveal" id="sources">
+        <article class="card sources">
+          <h3>Case-study readings</h3>
+          <p>1. Angwin et al., <i>Machine Bias</i>, ProPublica (2016). <a href="https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing" target="_blank" rel="noreferrer">Open</a></p>
+          <p>2. Angwin & Larson, <i>Bias in Criminal Risk Scores Is Mathematically Inevitable</i>, ProPublica (2016). <a href="https://www.propublica.org/article/bias-in-criminal-risk-scores-is-mathematically-inevitable-researchers-say" target="_blank" rel="noreferrer">Open</a></p>
+          <p>3. Feller et al., <i>A computer program was labeled biased against blacks. It’s actually not that clear</i>, Washington Post (2016). <a href="https://perma.cc/KYC8-KYGD" target="_blank" rel="noreferrer">Open archive</a></p>
+          <p>4. Hao & Stray, <i>Can you make AI fairer than a judge?</i>, MIT Technology Review (2019). <a href="https://www.technologyreview.com/2019/10/17/75285/ai-fairer-than-judge-criminal-risk-assessment-algorithm/" target="_blank" rel="noreferrer">Open</a></p>
+          <p class="tiny">The threshold lab uses a toy dataset and is labeled as such.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer-nav">
+    <button id="prevBtn">← Back</button>
+    <div id="stepLabel">Start</div>
+    <button id="nextBtn" class="primary">Next →</button>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
