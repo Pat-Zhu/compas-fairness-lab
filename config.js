@@ -1,7 +1,6 @@
-// Public browser configuration for the optional Supabase live-classroom backend.
-// The Supabase anon key is designed to be public in browser apps.
-// Leave these blank to keep the site in local-only mode.
+// Public browser configuration for the COMPAS Fairness Lab realtime backend.
+// This uses a Supabase publishable key, which is intended for browser use.
 window.SUPABASE_CONFIG = {
-  url: "",
-  anonKey: ""
+  url: "https://vzkkzevsgzwqzcuxrvac.supabase.co",
+  anonKey: "sb_publishable_6RKfY0E5MT855OXWhweydA_fSEXb8TI"
 };
