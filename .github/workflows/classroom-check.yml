@@ -16,10 +16,11 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-      - name: Check client syntax
+      - name: Check client syntax and content contract
         run: |
           node --check classroom.js
           node --check content.js
           node --check qr.js
+          node tests/content_checks.cjs
       - name: Exercise isolated live Supabase classroom
         run: python3 tests/live_smoke.py

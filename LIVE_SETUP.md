@@ -1,24 +1,31 @@
-# Classroom v3 operations
+# Classroom v4 operations
 
-Backend: the existing Supabase project, using capability-checked RPCs. No additional project or subscription was created.
+Backend: the existing Supabase project and capability-checked RPCs. No new project or subscription is needed for this update.
 
 ## Start a real class
-Open the base website, hard-refresh if an old interface appears, and look for **Classroom v3**. Click **Create classroom** once. Project the generated QR. A student who scans should see **Waiting for the facilitator**, without a Start button. Close the QR and click **Start discussion** on the facilitator screen. Students receive the current activity automatically, normally after the next two-second state refresh.
+Open the base website, hard-refresh, and check **Classroom v4**. Click **Create classroom** once. Project its QR. Students scan and see **Waiting for the facilitator**, with no Start button. Close the QR and choose **Start case introduction**. This opens the background/glossary page for everyone, with no vote or submission. After introducing the case, choose **Open opening vote**. The original nine discussion activities follow.
 
 ## Co-facilitator
-In the lobby choose **Copy private co-facilitator link** and send it privately to your partner. It grants control of this room. Do not distribute it to the class or encode it in a QR. Agree on one control operator to avoid simultaneous navigation.
+In the lobby choose **Copy private co-facilitator link**. Share it privately with your partner, never with students. Agree on one screen operator at a time. Keep private facilitation notes in the separate PDF on a non-projecting device; they are not part of the website interface.
 
-## Voting
-Only **Submit response** sends an answer. Dragging a slider or selecting a choice is a draft. The facilitator does not vote. **Close voting & show results** closes voting on the server and reveals aggregate results. **Reopen voting** lets students revise their existing answer. Changing the activity opens that activity's vote automatically; the breakout activity has no vote.
+## Voting versus reading evidence
+**Submit response** sends an answer. Selecting a choice or moving a slider is only a draft. **Close voting & show results** stops submissions and displays class aggregates. **Reopen voting** permits answer updates, without clearing previous submissions.
+
+**Reveal reading evidence** is a separate control on Activities 2, 4, 5 and 7. It displays cited source summaries on everyone's current screen. **Hide reading evidence** closes the panel. It neither closes voting nor reveals class results. Changing activity or threshold scenario hides the reading panel again.
+
+The source panels answer descriptive reading questions, not the normative poll. Opinion-only activities have no answer panel. On Activity 7 the source panel covers who used which standard, not who should receive authority.
+
+## Sequence and navigation
+Lobby -> Case background -> Activities 1-9. Use Next/Previous or the activity selector. Students automatically receive the shared stage on the next refresh, normally about two seconds when their page is active. Only the host has navigation controls.
 
 ## Refresh and reconnect
-Keep the same browser and device. Host credentials and participant credentials persist in browser storage; submitted answers persist on the server. Draft edits are not guaranteed to survive a refresh. A fresh/incognito browser represents a new participant. A lost connection is not a successful submission: wait for **Response saved**.
+Use the same browser/device. Host and student credentials are stored locally, while submitted answers persist on the server. Draft edits may not survive refresh. A new/incognito browser is a new identity. Look for **Response saved**, not just a selected option. Hosts do not count as participants.
 
-## Timers and endings
-The timer is shared, but reaching zero does not close voting or advance the activity. The facilitator does that manually. **End session** closes the room for everyone and cannot be undone. Create a new room for another class.
+## Timers, two threshold rounds, and ending
+The timer does not automatically close voting or change stages. At Activity 5 run **Detention scenario**, close and discuss, then choose **Support scenario** and submit separately. Both rounds remain available. Export aggregates at the final activity, then **End session**. Ending is irreversible for that session.
 
 ## Retention and limitations
-Join links expire after 24 hours. Data are not automatically deleted at expiration. No names or emails are requested; capability tokens and browser-linked answers are still stored. Do not use this for sensitive personal disclosures, formal elections, or high-stakes assessments.
+Join access expires after 24 hours; this does not delete stored records. No names or emails are requested, but browser-linked answers and credentials exist. Do not use the activity for sensitive disclosures or high-stakes assessments.
 
-## Fast pre-class check
-Use your laptop as host and one phone as student: scan, wait, start, submit, close/reveal, next, refresh. Always create a fresh room after rehearsal. Use raised hands and the projected prompts if the network fails.
+## Pre-class check
+Host laptop plus a student phone: scan -> wait -> case introduction -> opening vote -> submit -> show results -> fairness activity -> reveal/hide reading evidence. Check that the student has no host controls. End the rehearsal room and create a fresh classroom for the actual discussion. If connectivity fails, use the projected prompts and verbal responses.
