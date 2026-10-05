@@ -4,8 +4,6 @@ Interactive classroom discussion site for a Data Ethics case study on COMPAS and
 
 ## Live site
 
-After GitHub Pages is enabled for this repository, the site will be available at:
-
 https://pat-zhu.github.io/compas-fairness-lab/
 
 ## Classroom flow
@@ -20,15 +18,23 @@ https://pat-zhu.github.io/compas-fairness-lab/
 8. Data-science design principles
 9. Final re-vote and debrief
 
+## Live classroom mode
+
+The site now supports realtime anonymous classroom aggregation through Supabase. A facilitator can create a 6-character room code and share the generated link. Students vote from their own phones, and aggregate results update live.
+
+Until Supabase is configured, the site automatically falls back to local-only mode.
+
+See [LIVE_SETUP.md](LIVE_SETUP.md) for the one-time backend setup.
+
 ## Privacy / data
 
-This version is fully static. Responses are stored in the participant's own browser with `localStorage`. No names or answers are sent to a backend.
+The activity never asks students for names or emails.
 
-That makes the site easy to host on GitHub Pages and lets every student open the same activity, but it does **not** aggregate class votes across devices yet.
+- Local mode: responses stay in that browser.
+- Live mode: a random browser UUID and response state are stored for the room so class aggregates can be computed.
+- The classroom room code is not strong authentication, so live mode should only be used for low-risk, non-sensitive discussion responses.
 
 ## Local preview
-
-From the repository folder:
 
 ```bash
 python -m http.server 8000
