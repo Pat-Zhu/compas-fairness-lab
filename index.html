@@ -11,6 +11,9 @@
 <body>
   <header class="topbar">
     <div class="brand">COMPAS <span>Fairness Lab</span></div>
+    <button id="liveBadge" class="live-badge offline" type="button" title="Live classroom status">
+      <span class="live-dot"></span><span id="liveBadgeText">Local mode</span>
+    </button>
     <div class="progress" aria-label="Activity progress"><div id="progressFill"></div></div>
     <div class="timer">
       <strong id="timerText">00:00</strong>
@@ -30,6 +33,27 @@
         <button class="primary" data-go="1">Start discussion →</button>
         <button id="resetBtn">Reset my session</button>
       </div>
+
+      <article class="card live-setup" id="liveSetup">
+        <div class="live-setup-head">
+          <div>
+            <div class="eyebrow">Live classroom mode</div>
+            <h3>Let everyone vote from their own phone.</h3>
+            <p class="muted">Create a 6-character room code, share the link, and watch class results update in real time. No names are collected.</p>
+          </div>
+          <span class="privacy-pill">anonymous classroom responses</span>
+        </div>
+        <div class="live-controls">
+          <button class="primary" id="createRoomBtn">Create live room</button>
+          <div class="join-box">
+            <input id="roomCodeInput" maxlength="6" autocomplete="off" spellcheck="false" placeholder="ROOM CODE" aria-label="Room code" />
+            <button id="joinRoomBtn">Join room</button>
+          </div>
+          <button id="copyRoomLinkBtn" hidden>Copy student link</button>
+          <button id="leaveRoomBtn" hidden>Leave room</button>
+        </div>
+        <div id="liveSetupMessage" class="live-message">Checking live-classroom configuration…</div>
+      </article>
       <div class="grid">
         <article class="card span-7">
           <h3>Flow</h3>
@@ -38,7 +62,7 @@
             <span>4 · Race-blind?</span><span>5 · Threshold lab</span><span>6 · Perfect COMPAS?</span>
             <span>7 · Governance</span><span>8 · Design principles</span><span>9 · Re-vote</span>
           </div>
-          <p class="note">Anyone can open this site. By default, responses are stored only in that person's browser; the site does not collect names or send answers to a server.</p>
+          <p class="note">Anyone can open this site. In local mode, responses stay in that browser. In live mode, anonymous response state is synced to the class room so aggregate results can update in real time.</p>
         </article>
         <article class="card span-5">
           <h3>Facilitator shortcuts</h3>
@@ -58,6 +82,7 @@
         <button class="vote" data-value="Not enough information"><b>Not enough information</b><small>I need to know more first</small></button>
       </div>
       <div class="response-line" data-poll-result="initial"></div>
+      <div class="live-results" data-live-poll="initial"></div>
       <div class="note"><b>Discuss:</b> What would you need to know before you could answer confidently?</div>
       <details class="facilitator"><summary>Facilitator notes</summary>
         <p>Collect: comparative error rates, transparency, data used, appeal rights, stakes, and human oversight. Do not resolve the question yet; you will ask it again at the end.</p>
@@ -89,6 +114,7 @@
         <button class="vote" data-value="Preserve calibration"><b>Preserve score meaning</b><small>Same score → roughly the same observed risk</small></button>
       </div>
       <div class="response-line" data-poll-result="fairness"></div>
+      <div class="live-results" data-live-poll="fairness"></div>
       <button class="reveal-btn" data-reveal="fairnessReveal">Reveal framing</button>
       <div class="reveal" id="fairnessReveal"><div class="note">They are disagreeing about the <b>normative meaning of fairness</b>, not simply the arithmetic. One prioritizes error-rate parity; the other prioritizes calibration.</div></div>
       <details class="facilitator"><summary>Facilitator notes</summary>
@@ -129,6 +155,7 @@
         <button class="vote" data-value="Ethically insufficient"><b>It is ethically insufficient</b><small>Outcomes, proxies, and data pathways still matter.</small></button>
       </div>
       <div class="response-line" data-poll-result="race"></div>
+      <div class="live-results" data-live-poll="race"></div>
       <details class="facilitator"><summary>Facilitator notes</summary>
         <p>Ask for one example of a proxy variable or a label shaped by institutions. Avoid implying that any correlated feature is automatically illegitimate.</p>
       </details>
@@ -151,6 +178,7 @@
           <div class="meter-label">Classified high risk / detained</div>
           <div class="meter"><div id="detainedBar"></div></div>
           <p class="tiny">Illustrative toy dataset for classroom use — <b>not actual COMPAS data</b>.</p>
+          <div class="live-results" data-live-threshold></div>
         </article>
         <article class="card span-5">
           <h3>Discuss</h3>
@@ -176,6 +204,7 @@
         <button class="vote" data-value="It depends"><b>It depends</b><small>Procedure, use, and safeguards still matter.</small></button>
       </div>
       <div class="response-line" data-poll-result="perfect"></div>
+      <div class="live-results" data-live-poll="perfect"></div>
       <button class="reveal-btn" data-reveal="perfectReveal">Reveal follow-up lenses</button>
       <div class="reveal" id="perfectReveal">
         <div class="tags large"><span>Liberty before trial</span><span>Prediction vs. punishment</span><span>Rearrest ≠ crime</span><span>Due process</span><span>Contestability</span><span>Institutional justice</span></div>
@@ -189,6 +218,7 @@
       <p class="lead">You have exactly <b>10 influence tokens</b>. Allocate them across the people who should have the most say in choosing the fairness definition used to evaluate a system like COMPAS.</p>
       <div class="token-grid" id="tokenGrid"></div>
       <p class="tokens-left">Tokens remaining: <strong id="tokensLeft">10</strong></p>
+      <div class="live-results" data-live-tokens></div>
       <div class="note"><b>Discuss:</b> Was choosing calibration versus equal error rates really an engineering decision, or a governance decision disguised as one?</div>
     </section>
 
@@ -197,6 +227,7 @@
       <h2>You are now on the COMPAS data science team.</h2>
       <p class="prompt">Choose only <b>three</b> principles or priorities your team should refuse to lose sight of.</p>
       <div class="principles" id="principles"></div>
+      <div class="live-results" data-live-principles></div>
       <div class="note warn"><b>Report out:</b> Why these three? What about the COMPAS case makes them especially important?</div>
     </section>
 
@@ -210,10 +241,12 @@
         <button class="vote" data-value="Neither without safeguards"><b>Neither without safeguards</b><small>Conditions matter more than the label.</small></button>
       </div>
       <div class="response-line" data-poll-result="final"></div>
+      <div class="live-results" data-live-poll="final"></div>
       <div class="grid">
         <article class="card span-6"><h3>Your opening answer</h3><p id="initialSummary">—</p></article>
         <article class="card span-6"><h3>Your final answer</h3><p id="finalSummary">—</p></article>
       </div>
+      <div class="live-results" data-live-comparison></div>
       <p class="prompt">Exit question: What is one fairness concern that no mathematical metric we discussed today could fully answer?</p>
       <div class="note"><b>Takeaway:</b> Fairness is not one metric. Different metrics protect against different harms. A statistically fair score can still be used in an unjust system.</div>
       <div class="hero-actions">
@@ -239,6 +272,9 @@
     <button id="nextBtn" class="primary">Next →</button>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="live.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
