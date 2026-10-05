@@ -1,0 +1,25 @@
+name: Classroom smoke checks
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**.js'
+      - 'index.html'
+      - 'tests/**'
+      - '.github/workflows/classroom-check.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  classroom:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check client syntax
+        run: |
+          node --check classroom.js
+          node --check content.js
+          node --check qr.js
+      - name: Exercise isolated live Supabase classroom
+        run: python3 tests/live_smoke.py
