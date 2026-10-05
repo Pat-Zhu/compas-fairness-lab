@@ -29,13 +29,18 @@ The anon/publishable key is intended for browser use. Never put a Supabase servi
 
 ## 4. Use it in class
 
-Open the GitHub Pages site and choose **Create live room**. The site generates a 6-character room code and a shareable URL such as:
+Open the GitHub Pages site and choose **Create classroom QR**.
 
-```
-https://pat-zhu.github.io/compas-fairness-lab/?session=ABC123
-```
+A QR code will appear on the facilitator screen. Project that screen and ask students to:
 
-Students can open that link on their phones. Their responses update the aggregate bars in real time.
+1. Open the phone camera.
+2. Scan the QR code.
+3. Open the link.
+4. Keep the page open during discussion.
+
+Students automatically join the same realtime session. They do not need to type a room code, create an account, or enter a name.
+
+The **Copy student link** button is a backup for students who cannot scan the QR code.
 
 ## Data design
 
