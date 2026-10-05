@@ -38,19 +38,24 @@
         <div class="live-setup-head">
           <div>
             <div class="eyebrow">Live classroom mode</div>
-            <h3>Let everyone vote from their own phone.</h3>
-            <p class="muted">Create a 6-character room code, share the link, and watch class results update in real time. No names are collected.</p>
+            <h3>Put one QR code on the projector. Students scan and join.</h3>
+            <p class="muted">Create a live classroom session, then have students scan the QR code with their phones. They will join the same anonymous realtime session automatically.</p>
           </div>
           <span class="privacy-pill">anonymous classroom responses</span>
         </div>
         <div class="live-controls">
-          <button class="primary" id="createRoomBtn">Create live room</button>
-          <div class="join-box">
-            <input id="roomCodeInput" maxlength="6" autocomplete="off" spellcheck="false" placeholder="ROOM CODE" aria-label="Room code" />
-            <button id="joinRoomBtn">Join room</button>
-          </div>
+          <button class="primary" id="createRoomBtn">Create classroom QR</button>
           <button id="copyRoomLinkBtn" hidden>Copy student link</button>
-          <button id="leaveRoomBtn" hidden>Leave room</button>
+          <button id="leaveRoomBtn" hidden>End live session</button>
+        </div>
+        <div id="qrJoinPanel" class="qr-join-panel" hidden>
+          <div class="qr-card"><div id="classQrCode" class="qr-code" aria-label="QR code for students to join the live classroom"></div></div>
+          <div class="qr-copy">
+            <div class="eyebrow">Students</div>
+            <h3>Scan to join the discussion</h3>
+            <p>Open your phone camera, scan this QR code, and keep the page open during the activity. No sign-in or name is required.</p>
+            <p class="tiny">If scanning does not work, ask the facilitator for the student link.</p>
+          </div>
         </div>
         <div id="liveSetupMessage" class="live-message">Checking live-classroom configuration…</div>
       </article>
@@ -273,6 +278,7 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
   <script src="config.js"></script>
   <script src="live.js"></script>
   <script src="app.js"></script>
