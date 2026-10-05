@@ -48,3 +48,14 @@ input[type=range]{width:100%;accent-color:#8ed5ff;margin:18px 0}.stat-row{displa
 .live-count{font-size:.8rem;color:var(--muted);margin-bottom:10px}.live-row{display:grid;grid-template-columns:minmax(115px,1.4fr) minmax(120px,4fr) 55px;gap:10px;align-items:center;margin:8px 0}.live-row .label{font-size:.86rem;color:#dbe9fa}.live-bar{height:12px;background:#091522;border:1px solid #263f5d;border-radius:999px;overflow:hidden}.live-bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:999px}.live-row strong{text-align:right;font-variant-numeric:tabular-nums;font-size:.86rem}.live-empty{color:var(--muted);font-size:.9rem}
 .room-code{color:#fff;font-weight:950;letter-spacing:.13em}.room-link{word-break:break-all}
 @media(max-width:680px){.live-setup-head{display:block}.privacy-pill{margin-bottom:10px}.join-box{width:100%}.join-box input{flex:1}.live-row{grid-template-columns:1fr 2fr 48px}.live-badge{order:2}.brand{flex:1}}
+
+
+/* --- QR join flow --- */
+.join-box{display:none!important}
+.qr-join-panel{margin-top:18px;display:grid;grid-template-columns:220px 1fr;gap:22px;align-items:center;padding:20px;border:1px solid #335878;border-radius:18px;background:linear-gradient(135deg,rgba(17,43,72,.96),rgba(12,30,51,.96))}
+.qr-join-panel[hidden]{display:none!important}
+.qr-card{display:grid;place-items:center;padding:14px;background:#fff;border-radius:18px;box-shadow:0 15px 40px rgba(0,0,0,.24)}
+.qr-code{width:192px;height:192px;display:grid;place-items:center}
+.qr-code img,.qr-code canvas{display:block!important;max-width:100%;height:auto!important}
+.qr-copy h3{font-size:1.6rem;margin:.15em 0 .35em}.qr-copy p{margin:.4em 0}
+@media(max-width:680px){.qr-join-panel{grid-template-columns:1fr;text-align:center}.qr-card{width:max-content;margin:auto}.qr-copy .eyebrow{text-align:center}}
