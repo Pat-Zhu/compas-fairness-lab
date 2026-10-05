@@ -1,62 +1,24 @@
-# Enable live classroom aggregation
+# Classroom v3 operations
 
-The GitHub Pages site already contains the realtime UI. It falls back to local mode until a Supabase project is configured.
+Backend: the existing Supabase project, using capability-checked RPCs. No additional project or subscription was created.
 
-## 1. Create a Supabase project
+## Start a real class
+Open the base website, hard-refresh if an old interface appears, and look for **Classroom v3**. Click **Create classroom** once. Project the generated QR. A student who scans should see **Waiting for the facilitator**, without a Start button. Close the QR and click **Start discussion** on the facilitator screen. Students receive the current activity automatically, normally after the next two-second state refresh.
 
-Create a project in Supabase.
+## Co-facilitator
+In the lobby choose **Copy private co-facilitator link** and send it privately to your partner. It grants control of this room. Do not distribute it to the class or encode it in a QR. Agree on one control operator to avoid simultaneous navigation.
 
-## 2. Create the classroom table
+## Voting
+Only **Submit response** sends an answer. Dragging a slider or selecting a choice is a draft. The facilitator does not vote. **Close voting & show results** closes voting on the server and reveals aggregate results. **Reopen voting** lets students revise their existing answer. Changing the activity opens that activity's vote automatically; the breakout activity has no vote.
 
-Open **SQL Editor** in Supabase and run the contents of `supabase-setup.sql`.
+## Refresh and reconnect
+Keep the same browser and device. Host credentials and participant credentials persist in browser storage; submitted answers persist on the server. Draft edits are not guaranteed to survive a refresh. A fresh/incognito browser represents a new participant. A lost connection is not a successful submission: wait for **Response saved**.
 
-This creates one table, `class_responses`, and enables Realtime.
+## Timers and endings
+The timer is shared, but reaching zero does not close voting or advance the activity. The facilitator does that manually. **End session** closes the room for everyone and cannot be undone. Create a new room for another class.
 
-## 3. Add the public browser configuration
+## Retention and limitations
+Join links expire after 24 hours. Data are not automatically deleted at expiration. No names or emails are requested; capability tokens and browser-linked answers are still stored. Do not use this for sensitive personal disclosures, formal elections, or high-stakes assessments.
 
-In Supabase, copy the **Project URL** and **anon / publishable key**.
-
-Edit `config.js`:
-
-```js
-window.SUPABASE_CONFIG = {
-  url: "https://YOUR_PROJECT.supabase.co",
-  anonKey: "YOUR_PUBLIC_ANON_KEY"
-};
-```
-
-The anon/publishable key is intended for browser use. Never put a Supabase service-role key in this repository.
-
-## 4. Use it in class
-
-Open the GitHub Pages site and choose **Create classroom QR**.
-
-A QR code will appear on the facilitator screen. Project that screen and ask students to:
-
-1. Open the phone camera.
-2. Scan the QR code.
-3. Open the link.
-4. Keep the page open during discussion.
-
-Students automatically join the same realtime session. They do not need to type a room code, create an account, or enter a name.
-
-The **Copy student link** button is a backup for students who cannot scan the QR code.
-
-## Data design
-
-- No names or email addresses are requested.
-- Each browser gets a random participant UUID.
-- Each browser stores one JSON response state per room.
-- Room codes are short-lived classroom identifiers, not authentication.
-- This setup is appropriate for low-risk classroom interaction, not sensitive or confidential data.
-
-## What syncs live
-
-- Opening vote
-- ProPublica vs. Northpointe fairness preference
-- Race-blindness question
-- Threshold choice
-- 99.9% COMPAS thought experiment
-- Governance token allocation
-- Top three data-science principles
-- Final vote and opening-vs-final comparison
+## Fast pre-class check
+Use your laptop as host and one phone as student: scan, wait, start, submit, close/reveal, next, refresh. Always create a fresh room after rehearsal. Use raised hands and the projected prompts if the network fails.
